@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import toast from "react-hot-toast";
+import Layout from "../components/Layout";
 import { apiFetch } from "../lib/api";
 
 export default function Dashboard() {
@@ -7,14 +8,13 @@ export default function Dashboard() {
   const [customers, setCustomers] = useState([]);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const router = useRouter();
 
   const loadData = async () => {
     const res = await apiFetch(`${baseUrl}/api/customers/`);
     if (res.ok) {
       setCustomers(await res.json());
     } else {
-      router.push("/"); // logout otomatis
+      toast.error("Gagal mengambil data");
     }
   };
 
@@ -23,34 +23,46 @@ export default function Dashboard() {
   }, []);
 
   const addCustomer = async () => {
-    await apiFetch(`${baseUrl}/api/customers/`, {
+    const res = await apiFetch(`${baseUrl}/api/customers/`, {
       method: "POST",
       body: JSON.stringify({ name, email }),
     });
-    setName("");
-    setEmail("");
-    loadData();
+    if (res.ok) {
+      toast.success("Customer ditambahkan");
+      setName("");
+      setEmail("");
+      loadData();
+    } else {
+      toast.error("Gagal menambahkan customer");
+    }
   };
 
   const deleteCustomer = async (id) => {
-    await apiFetch(`${baseUrl}/api/customers/${id}`, {
+    const res = await apiFetch(`${baseUrl}/api/customers/${id}`, {
       method: "DELETE",
     });
-    loadData();
+    if (res.ok) {
+      toast.success("Customer dihapus");
+      loadData();
+    } else {
+      toast.error("Gagal menghapus");
+    }
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl mb-4">Dashboard Customer</h1>
+    <Layout>
+      <h1 className="text-2xl font-bold mb-4">Dashboard Customer</h1>
       <div className="flex gap-2 mb-4">
-        <input className="border p-2" placeholder="Nama" value={name} onChange={e => setName(e.target.value)} />
-        <input className="border p-2" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
+        <input className="border p-2 dark:bg-gray-700" placeholder="Nama" value={name} onChange={e => setName(e.target.value)} />
+        <input className="border p-2 dark:bg-gray-700" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
         <button className="bg-blue-500 text-white px-4 py-2" onClick={addCustomer}>Tambah</button>
       </div>
       <table className="w-full border">
         <thead><tr><th>Nama</th><th>Email</th><th>Aksi</th></tr></thead>
         <tbody>
-          {customers.map(c => (
+          {customers.length === 0 ? (
+            <tr><td colSpan="3" className="text-center p-4">Belum ada data</td></tr>
+          ) : customers.map(c => (
             <tr key={c.id} className="border-t">
               <td>{c.name}</td>
               <td>{c.email}</td>
@@ -61,6 +73,6 @@ export default function Dashboard() {
           ))}
         </tbody>
       </table>
-    </div>
+    </Layout>
   );
 }

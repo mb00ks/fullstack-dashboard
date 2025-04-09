@@ -24,12 +24,14 @@ export default function Login() {
   };
 
   return (
-    <div className="flex flex-col items-center p-8">
-      <h1 className="text-2xl mb-4">Login Admin</h1>
-      <input className="border p-2 mb-2" placeholder="Username" onChange={e => setUsername(e.target.value)} />
-      <input className="border p-2 mb-2" placeholder="Password" type="password" onChange={e => setPassword(e.target.value)} />
-      <button className="bg-blue-500 text-white px-4 py-2" onClick={login}>Login</button>
-      <p className="mt-2 text-sm">Belum punya akun? <a className="text-blue-600" href="/register">Daftar</a></p>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+      <div className="bg-white dark:bg-gray-800 p-6 rounded shadow w-80">
+        <h1 className="text-xl font-bold mb-4">Login Admin</h1>
+        <input className="w-full border p-2 mb-2 dark:bg-gray-700" placeholder="Username" onChange={e => setUsername(e.target.value)} />
+        <input className="w-full border p-2 mb-2 dark:bg-gray-700" placeholder="Password" type="password" onChange={e => setPassword(e.target.value)} />
+        <button className="w-full bg-blue-500 text-white p-2" onClick={login}>Login</button>
+        <p className="mt-2 text-sm text-center">Belum punya akun? <a className="text-blue-600" href="/register">Daftar</a></p>
+      </div>
     </div>
   );
 }
