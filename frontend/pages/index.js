@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
+import ThemeToggle from "../components/ThemeToggle";
 
 export default function Login() {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -24,13 +25,16 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 relative">
+      <div className="absolute top-4 right-4">
+        <ThemeToggle />
+      </div>
       <div className="bg-white dark:bg-gray-800 p-6 rounded shadow w-80">
         <h1 className="text-xl font-bold mb-4">Login Admin</h1>
         <input className="w-full border p-2 mb-2 dark:bg-gray-700" placeholder="Username" onChange={e => setUsername(e.target.value)} />
         <input className="w-full border p-2 mb-2 dark:bg-gray-700" placeholder="Password" type="password" onChange={e => setPassword(e.target.value)} />
         <button className="w-full bg-blue-500 text-white p-2" onClick={login}>Login</button>
-        <p className="mt-2 text-sm text-center">Belum punya akun? <a className="text-blue-600" href="/register">Daftar</a></p>
+        <p className="mt-2 text-sm text-center">Belum punya akun? <a className="text-blue-600" href="/register">Daftar</a></p>        
       </div>
     </div>
   );
