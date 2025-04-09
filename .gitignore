@@ -1,0 +1,25 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+
+# Node.js (Next.js frontend)
+node_modules/
+.next/
+out/
+.env.local
+
+# OS & Editor
+.DS_Store
+.vscode/
+
+# Docker
+*.log
+db-data/
+
+# Others
+*.zip
